@@ -1,0 +1,32 @@
+{
+  "gateway": {
+    "port": 18789,
+    "host": "0.0.0.0",
+    "token": "4555d5bd1f5a136439ed7a785251c29e61a5290bd330d7a4"
+  },
+  "models": {
+    "default": "custom-api-deepseek-com/deepseek-chat",
+    "providers": {
+      "custom-api-deepseek-com": {
+        "apiKey": "${DEEPSEEK_API_KEY}",
+        "baseUrl": "https://api.deepseek.com"
+      },
+      "ollama": {
+        "baseUrl": "http://localhost:11434"
+      }
+    }
+  },
+  "tools": {
+    "web": {
+      "search": {
+        "provider": "custom",
+        "baseUrl": "http://duckduckgo-proxy:8000",
+        "endpoint": "/search"
+      }
+    }
+  },
+  "skills": {
+    "enabled": true,
+    "directory": "/app/skills"
+  }
+}
