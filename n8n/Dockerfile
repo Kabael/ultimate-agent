@@ -6,8 +6,8 @@ WORKDIR /data
 # Установка community nodes
 RUN npm install n8n-nodes-openclaw
 
-# Копирование workflow из подпапки n8n
-COPY ./n8n/ultimate-agent-workflow.json /data/
+# Копирование workflow
+COPY ./ultimate-agent-workflow.json /data/
 
 # Настройка переменных окружения
 ENV N8N_PROTOCOL=https
@@ -17,9 +17,10 @@ ENV EXECUTIONS_DATA_PRUNE=true
 ENV EXECUTIONS_DATA_MAX_AGE=168
 ENV GENERIC_TIMEZONE=Europe/Moscow
 ENV N8N_USER_FOLDER=/data
+ENV N8N_ENCRYPTION_KEY=ultimate-agent-saas-encryption-key-2026
 
 # Открытие порта
 EXPOSE 5678
 
-# Запуск n8n
-CMD ["n8n", "start"]
+# Запуск n8n (используем полный путь к бинарному файлу)
+CMD ["npx", "n8n", "start"]

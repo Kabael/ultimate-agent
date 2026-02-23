@@ -3,14 +3,17 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Установка OpenClaw
-RUN npm install -g openclaw@latest
+# Установка зависимостей
+RUN apk add --no-cache git python3 make g++
 
-# Создание конфигурации
+# Установка OpenClaw с явным указанием версии и флагами
+RUN npm install -g openclaw@latest --unsafe-perm=true --allow-root
+
+# Создание директории конфигурации
 RUN mkdir -p /root/.openclaw
 
-# Копирование конфигурации из подпапки openclaw
-COPY ./openclaw/openclaw.json /root/.openclaw/openclaw.json
+# Копирование конфигурации
+COPY ./openclaw.json /root/.openclaw/openclaw.json
 
 # Открытие порта
 EXPOSE 18789
