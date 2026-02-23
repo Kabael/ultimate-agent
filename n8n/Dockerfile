@@ -18,9 +18,11 @@ ENV EXECUTIONS_DATA_MAX_AGE=168
 ENV GENERIC_TIMEZONE=Europe/Moscow
 ENV N8N_USER_FOLDER=/data
 ENV N8N_ENCRYPTION_KEY=ultimate-agent-saas-encryption-key-2026
+# Явно указываем слушать все интерфейсы (на случай, если по умолчанию localhost)
+ENV N8N_LISTEN_ADDRESS=0.0.0.0
 
 # Открытие порта
 EXPOSE 5678
 
-# Запуск n8n (используем полный путь к бинарному файлу)
-CMD ["npx", "n8n", "start"]
+# Запуск n8n (используем прямую команду, без npx)
+CMD ["n8n", "start"]
