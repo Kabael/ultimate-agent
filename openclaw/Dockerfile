@@ -1,22 +1,21 @@
-# OpenClaw Gateway для Ultimate Agent SaaS
 FROM node:18-alpine
+
+# Устанавливаем git и build tools (необходимо для некоторых npm-пакетов)
+RUN apk add --no-cache git python3 make g++
 
 WORKDIR /app
 
-# Установка зависимостей
-RUN apk add --no-cache git python3 make g++
-
-# Установка OpenClaw с явным указанием версии и флагами
+# Устанавливаем OpenClaw глобально
 RUN npm install -g openclaw@latest --unsafe-perm=true --allow-root
 
-# Создание директории конфигурации
+# Создаём папку для конфига
 RUN mkdir -p /root/.openclaw
 
-# Копирование конфигурации
-COPY ./openclaw.json /root/.openclaw/openclaw.json
+# Копируем конфиг (ПРАВИЛЬНЫЙ ПУТЬ: просто имя файла, без ./)
+COPY openclaw.json /root/.openclaw/openclaw.json
 
-# Открытие порта
+# Открываем порт, который будет слушать OpenClaw (18789)
 EXPOSE 18789
 
-# Запуск OpenClaw Gateway
-CMD ["openclaw", "gateway", "start", "--port", "18789", "--host", "0.0.0.0"]
+# Запуск
+CMD ["openclaw", "gateway", "start"]
