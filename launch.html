@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Agent Platform - Запуск</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .logo p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .hint {
+            font-size: 14px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .telegram-option {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .telegram-option p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .telegram-button {
+            background: #0088cc;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+        
+        .telegram-button:hover {
+            background: #0077b5;
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f9ff;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            display: none;
+        }
+        
+        .result h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .result a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .result a:hover {
+            text-decoration: underline;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error {
+            color: #e74c3c;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .features {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .features h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .features ul {
+            list-style: none;
+        }
+        
+        .features li {
+            padding: 8px 0;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+        
+        .features li:before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .logo h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>🚀 Ultimate Agent Platform</h1>
+            <p>Ваш AI-помощник для бизнеса. Запуск за 2 клика.</p>
+        </div>
+        
+        <div class="form-group">
+            <label for="articles">📋 Введите артикулы Wildberries (через запятую):</label>
+            <textarea 
+                id="articles" 
+                placeholder="Например: 123456789, 987654321, 456789123"
+                required
+            ></textarea>
+            <div class="hint">Можно указать до 10 артикулов. Система начнёт мониторинг сразу после запуска.</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="telegram">📱 Telegram ID (опционально):</label>
+            <textarea 
+                id="telegram" 
+                placeholder="Ваш Telegram ID для уведомлений. Или используйте кнопку ниже."
+                rows="2"
+            ></textarea>
+            <div class="hint">Если не знаете ID, просто нажмите кнопку "Запустить через Telegram"</div>
+        </div>
+        
+        <button class="button" onclick="launchPlatform()" id="launchButton">
+            🚀 Запустить платформу
+        </button>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Настраиваем вашу платформу...</p>
+        </div>
+        
+        <div class="error" id="error"></div>
+        
+        <div class="telegram-option">
+            <p>Или запустите через Telegram бота:</p>
+            <a href="https://t.me/ultimate_agent_bot" class="telegram-button" target="_blank">
+                🤖 Запустить через Telegram
+            </a>
+            <p class="hint" style="margin-top: 10px;">Просто напишите /start боту</p>
+        </div>
+        
+        <div class="result" id="result">
+            <h3>🎉 Платформа запущена!</h3>
+            <p>✅ Ваша Google Sheets таблица: <a href="#" id="sheetLink" target="_blank">открыть</a></p>
+            <p>📊 Дашборд настроен и обновляется автоматически</p>
+            <p>🤖 Telegram уведомления активированы</p>
+            <p>⏱️ Мониторинг артикулов запущен</p>
+            <p style="margin-top: 15px; font-weight: 500;">Что дальше?</p>
+            <ul>
+                <li>Откройте таблицу для просмотра данных</li>
+                <li>Настройте уведомления в Telegram</li>
+                <li>Добавьте больше артикулов через бота</li>
+            </ul>
+        </div>
+        
+        <div class="features">
+            <h3>✨ Что вы получаете:</h3>
+            <ul>
+                <li>Автоматический мониторинг отзывов</li>
+                <li>Финансовый автопилот</li>
+                <li>AI-анализ тональности</li>
+                <li>Мультиагентная система</li>
+                <li>База знаний (второй мозг)</li>
+                <li>Прогнозирование спроса</li>
+                <li>Автоматизация закупок</li>
+                <li>Голосовой интерфейс</li>
+                <li>Трекер экономии времени</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        async function launchPlatform() {
+            const articles = document.getElementById('articles').value.trim();
+            const telegram = document.getElementById('telegram').value.trim();
+            const button = document.getElementById('launchButton');
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const error = document.getElementById('error');
+            
+            // Валидация
+            if (!articles) {
+                showError('Пожалуйста, введите хотя бы один артикул');
+                return;
+            }
+            
+            // Парсим артикулы
+            const articlesArray = articles.split(',')
+                .map(a => a.trim())
+                .filter(a => a);
+            
+            if (articlesArray.length === 0) {
+                showError('Пожалуйста, введите корректные артикулы');
+                return;
+            }
+            
+            if (articlesArray.length > 10) {
+                showError('Максимум 10 артикулов');
+                return;
+            }
+            
+            // Показываем загрузку
+            button.disabled = true;
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            result.style.display = 'none';
+            
+            try {
+                // Отправляем запрос на API
+                const response = await fetch('https://ultimate-agent-api.onrender.com/api/create-client', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        articles: articlesArray,
+                        telegramChatId: telegram || null
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Ошибка сервера');
+                }
+                
+                // Показываем результат
+                loading.style.display = 'none';
+                
+                if (data.sheetUrl) {
+                    document.getElementById('sheetLink').href = data.sheetUrl;
+                    document.getElementById('sheetLink').textContent = data.sheetUrl;
+                }
+                
+                result.style.display = 'block';
+                button.textContent = '✅ Готово!';
+                
+                // Прокручиваем к результату
+                result.scrollIntoView({ behavior: 'smooth' });
+                
+            } catch (err) {
+                loading.style.display = 'none';
+                button.disabled = false;
+                showError(err.message || 'Произошла ошибка. Попробуйте позже.');
+            }
+        }
+        
+        function showError(message) {
+            const error = document.getElementById('error');
+            error.textContent = message;
+            error.style.display = 'block';
+            error.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Автофокус на поле ввода
+        document.getElementById('articles').focus();
+        
+        // Разрешаем отправку по Enter в textarea (с Shift+Enter для новой строки)
+        document.getElementById('articles').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                launchPlatform();
+            }
+        });
+    </script>
+</body>
+</html>
