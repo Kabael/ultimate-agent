@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const { Client } = require('pg');
 const TelegramBot = require('node-telegram-bot-api');
 const { google } = require('googleapis');
@@ -11,6 +12,9 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Статические файлы (для launch.html)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // База данных
 const db = new Client({
