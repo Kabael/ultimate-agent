@@ -6,8 +6,8 @@ WORKDIR /data
 # Установка community nodes
 RUN npm install n8n-nodes-openclaw
 
-# Копирование workflow
-COPY ultimate-agent-workflow.json /data/
+# Копирование workflow из подпапки n8n
+COPY ./n8n/ultimate-agent-workflow.json /data/
 
 # Настройка переменных окружения
 ENV N8N_PROTOCOL=https

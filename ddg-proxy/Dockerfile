@@ -6,8 +6,8 @@ WORKDIR /app
 # Установка зависимостей
 RUN pip install flask beautifulsoup4 requests
 
-# Копирование кода
-COPY ddg_proxy.py .
+# Копирование кода из подпапки ddg-proxy
+COPY ./ddg-proxy/ddg_proxy.py .
 
 # Открытие порта
 EXPOSE 8000

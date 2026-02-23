@@ -1,51 +1,78 @@
-# Ultimate Agent Platform - Render Blueprint
+# Render Blueprint для Ultimate Agent SaaS
+# Развёртывание одной кнопкой на Render.com
+
 services:
+  # Бэкенд API на Node.js
   - type: web
     name: ultimate-agent-api
-    runtime: image
-    repo: https://github.com/Kabael/ultimate-agent
-    branch: main
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    envVars:
-      - key: TELEGRAM_BOT_TOKEN
-        sync: false
-      - key: GOOGLE_SHEETS_API_KEY
-        sync: false
-      - key: DEEPSEEK_API_KEY
-        sync: false
+    env: node
+    region: frankfurt  # Ближайший к России регион
     plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ultimate-agent-db
+          property: connectionString
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false  # Нужно будет добавить вручную
+      - key: GOOGLE_SHEETS_API_KEY
+        sync: false  # Нужно будет добавить вручную
+      - key: OPENCLAW_GATEWAY_TOKEN
+        value: 4555d5bd1f5a136439ed7a785251c29e61a5290bd330d7a4
+      - key: OPENCLAW_GATEWAY_URL
+        value: http://openclaw-gateway:18789
+    healthCheckPath: /health
+    autoDeploy: true
 
+  # OpenClaw Gateway
   - type: web
     name: openclaw-gateway
-    runtime: image
-    repo: https://github.com/Kabael/ultimate-agent
-    branch: main
-    build:
-      context: ./openclaw
-      dockerfile: Dockerfile
-    envVars:
-      - key: DEEPSEEK_API_KEY
-        sync: false
+    env: docker
+    region: frankfurt
     plan: free
+    dockerfilePath: ./openclaw/Dockerfile
+    envVars:
+      - key: OPENCLAW_GATEWAY_TOKEN
+        value: 4555d5bd1f5a136439ed7a785251c29e61a5290bd330d7a4
+      - key: DEEPSEEK_API_KEY
+        sync: false  # Нужно будет добавить вручную
+    autoDeploy: true
 
+  # n8n с готовым workflow
   - type: web
     name: n8n
-    runtime: image
-    repo: https://github.com/Kabael/ultimate-agent
-    branch: main
-    build:
-      context: ./n8n
-      dockerfile: Dockerfile
+    env: docker
+    region: frankfurt
     plan: free
+    dockerfilePath: ./n8n/Dockerfile
+    envVars:
+      - key: N8N_PROTOCOL
+        value: https
+      - key: N8N_HOST
+        value: n8n.onrender.com
+      - key: WEBHOOK_URL
+        value: https://ultimate-agent-api.onrender.com
+    autoDeploy: true
 
+  # DuckDuckGo Proxy
   - type: web
     name: duckduckgo-proxy
-    runtime: image
-    repo: https://github.com/Kabael/ultimate-agent
-    branch: main
-    build:
-      context: ./ddg-proxy
-      dockerfile: Dockerfile
+    env: docker
+    region: frankfurt
     plan: free
+    dockerfilePath: ./ddg-proxy/Dockerfile
+    autoDeploy: true
+
+# База данных PostgreSQL
+databases:
+  - name: ultimate-agent-db
+    region: frankfurt
+    plan: free
+    databaseName: ultimate_agent
+    user: ultimate_agent_user
