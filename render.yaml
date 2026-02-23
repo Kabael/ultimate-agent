@@ -49,8 +49,3 @@ services:
     build:
       context: ./ddg-proxy
     plan: free
-
-  - type: postgres
-    name: ultimate-agent-db
-    plan: free
-    ipAllowList: []
