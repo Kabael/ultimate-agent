@@ -12,8 +12,8 @@ RUN npm install -g openclaw@latest
 # Создание конфигурации
 RUN mkdir -p /root/.openclaw
 
-# Копирование конфигурации из подпапки openclaw
-COPY ./openclaw/openclaw.json /root/.openclaw/openclaw.json
+# Копирование конфигурации
+COPY ./openclaw.json /root/.openclaw/openclaw.json
 
 # Открытие порта
 EXPOSE 18789
