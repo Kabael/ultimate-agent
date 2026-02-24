@@ -1,19 +1,17 @@
+# Backend API для Ultimate Agent SaaS
 FROM node:18-alpine
-
-# Устанавливаем git и build tools (необходимо для некоторых npm-пакетов)
-RUN apk add --no-cache git python3 make g++
 
 WORKDIR /app
 
-# Устанавливаем OpenClaw глобально
-RUN npm install -g openclaw@latest --unsafe-perm=true --allow-root
+# Копирование package.json и установка зависимостей
+COPY package*.json ./
+RUN npm install --production
 
-# Создаём папку для конфига
-RUN mkdir -p /root/.openclaw
+# Копирование исходного кода
+COPY . .
 
-# Копируем конфиг (обрати внимание — путь без "./")
-COPY openclaw.json /root/.openclaw/openclaw.json
+# Открытие порта
+EXPOSE 3000
 
-EXPOSE 18789
-
-CMD ["openclaw", "gateway", "start"]
+# Запуск приложения
+CMD ["npm", "start"]
